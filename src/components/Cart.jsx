@@ -1,19 +1,32 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { CartContext } from '../App';
-import {toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+
 const Cart = () => {
   const { Cartitem, setCartitem } = useContext(CartContext);
-  const [item, setitem] = useState(1)
+
   const removeFromCart = (id) => {
     setCartitem((prev) => prev.filter((item) => item.id !== id));
-    toast.success("Product removed🥲")
+    toast.warn("Product removed 🥲");
   };
-  function increment(){
-    setitem(item+1)
-  }
-  function decrement(){
-    setitem(item-1)
-  }
+
+  const increment = (id) => {
+    setCartitem((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, count: item.count + 1 } : item
+      )
+    );
+  };
+
+  const decrement = (id) => {
+    setCartitem((prev) =>
+      prev.map((item) =>
+        item.id === id && item.count > 1
+          ? { ...item, count: item.count - 1 }
+          : item
+      )
+    );
+  };
 
   return (
     <div className="h-full bg-black w-full flex items-center justify-center flex-wrap gap-8 p-8">
@@ -38,10 +51,20 @@ const Cart = () => {
               <h2 className="text-xl font-semibold">{prod.model}</h2>
               <p className="text-gray-800 font-medium">Price: ₹{prod.price}</p>
               <p className="text-gray-600">{prod.description}</p>
-              <div className='flex '>
-                <p onClick={decrement} className='text-lg px-2 border-2 border-gray-300 font-bold hover:cursor-pointer'>-</p>
-                <p className='text-lg px-1  font-bold'>{item}</p>
-                <p onClick={increment} className='text-lg px-2 border-2 border-gray-300 font-bold hover:cursor-pointer'>+</p>
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => decrement(prod.id)}
+                  className="text-lg px-2 border-2 border-gray-300 font-bold hover:cursor-pointer"
+                >
+                  -
+                </button>
+                <p className="text-lg font-bold">{prod.count}</p>
+                <button
+                  onClick={() => increment(prod.id)}
+                  className="text-lg px-2 border-2 border-gray-300 font-bold hover:cursor-pointer"
+                >
+                  +
+                </button>
               </div>
               <button
                 onClick={() => removeFromCart(prod.id)}
