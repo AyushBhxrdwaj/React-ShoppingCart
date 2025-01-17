@@ -12,7 +12,7 @@ const Home = () => {
     if (filtered_product && !Cartitem.some((item) => item.id === id)) {
       setCartitem((prev) => [...prev, filtered_product]);
 
-      toast.success("Product added to your Cart!!!")
+      toast.success("Product added to your Cart!!!😘")
     }
   };
 
