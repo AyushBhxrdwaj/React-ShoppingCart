@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import productList from '../data';
 import Card from './Card';
 import { CartContext } from '../App';
+import {toast } from 'react-toastify';
 
 const Home = () => {
   const { Cartitem, setCartitem } = useContext(CartContext);
@@ -10,6 +11,8 @@ const Home = () => {
     const filtered_product = productList.find((product) => product.id === id);
     if (filtered_product && !Cartitem.some((item) => item.id === id)) {
       setCartitem((prev) => [...prev, filtered_product]);
+
+      toast.success("Product added to your Cart!!!")
     }
   };
 

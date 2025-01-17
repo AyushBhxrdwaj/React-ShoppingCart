@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { CartContext } from '../App';
-
+import {toast } from 'react-toastify';
 const Cart = () => {
   const { Cartitem, setCartitem } = useContext(CartContext);
   const [item, setitem] = useState(1)
   const removeFromCart = (id) => {
     setCartitem((prev) => prev.filter((item) => item.id !== id));
+    toast.success("Product removed🥲")
   };
   function increment(){
     setitem(item+1)
